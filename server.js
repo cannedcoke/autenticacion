@@ -1,6 +1,5 @@
-const path = require("node:path")
 
-const express = requre("express")
+const express = require("express")
 
 const app = express()
 
@@ -9,7 +8,13 @@ app.use(express.json())
 
 const path = require("path")
 
-app.use("/js",express.static(path.join(__dirname,"js")));
+app.use(express.static(path.join(__dirname, "views")));
+
+// Serve CSS files
+app.use("/css", express.static(path.join(__dirname, "static/css")));
+
+// Serve JS files
+app.use("/js", express.static(path.join(__dirname, "static", "js")));
 
 const routes = require("./routes/router")
 

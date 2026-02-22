@@ -1,0 +1,26 @@
+{
+  "name": "autenticacion",
+  "version": "1.0.0",
+  "description": "sessions and tokens",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cannedcoke/autenticacion.git"
+  },
+  "author": "miki",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cannedcoke/autenticacion/issues"
+  },
+  "homepage": "https://github.com/cannedcoke/autenticacion#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.17.4"
+  }
+}
