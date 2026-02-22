@@ -1,0 +1,2 @@
+los roles que voy a implementar son usuario que va a poder acceder a una lista basica y admin que va a tener permisos crud
+voy a usar arquitectura mvc para escalabilidad, voy a usar js por la naturaleza web del proyecto
