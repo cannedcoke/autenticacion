@@ -3,9 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/dashboard.css">
     <title>Document</title>
 </head>
 <body>
-    <h1>hey</h1>
+    <table id="users-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Created At</th>
+      <th id="actions-header" >Actions</th>
+    </tr>
+  </thead>
+  <tbody id="users-body">
+    <!-- Se llena dinámicamente -->
+  </tbody>
+</table>
+<button onclick="logout()">Log out</button>
+<script src="/js/dashboard.js"></script>
 </body>
 </html>
