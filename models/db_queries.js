@@ -89,7 +89,17 @@ async function delRow(id){
     conn.release();
     return result.affectedRows > 0;
 }
+async function deleteSession(sessionId) {
+    const conn = await pool.getConnection();
 
+    const [result] = await conn.query(
+        `DELETE FROM sessions WHERE session_id = ?`,
+        [sessionId]
+    );
+
+    conn.release();
+    return result.affectedRows > 0;
+}
 
 // permite que se pueda usar fuera del file
 module.exports = {
@@ -99,5 +109,6 @@ module.exports = {
     getUserDash,
     createSession,
     getSession,
-    delRow
+    delRow, 
+    deleteSession
 };

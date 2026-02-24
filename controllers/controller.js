@@ -81,6 +81,12 @@ exports.displayDash = async (req, res) => {
 };
 
 exports.logout = async (req, res) => {
+    const sessionId = req.cookies.session_id;
+
+    if (sessionId) {
+        await db.deleteSession(sessionId);
+    }
+
     res.clearCookie("session_id");
     return res.json({ success: true });
 };
