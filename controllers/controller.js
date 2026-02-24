@@ -1,7 +1,10 @@
 const db = require("../models/db_queries");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
+
 JWT_SECRET= "alyssa"
+
 exports.signUp = async (req, res) => {
     const { email, pass } = req.body;
     try {
@@ -13,6 +16,7 @@ exports.signUp = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
+
 
 exports.logIn = async (req, res) => {
     const { email, pass, sessionType } = req.body;
@@ -33,17 +37,61 @@ exports.logIn = async (req, res) => {
 
         if (sessionType === "jwt") {
             const token = jwt.sign(
-                { userId: user.id, email: user.email },
+                { userId: user.id, email: user.email,role: user.role },
                 JWT_SECRET,
                 { expiresIn: "1h" }
             );
             return res.json({ token });
         }
+        if (sessionType === "cookie") {
+             const sessionId = crypto.randomUUID()
+             const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
+             await db.createSession(sessionId,user.id, expiresAt);
+
+             res.cookie("session_id",sessionId, {
+                httpOnly:true,
+                maxAge:60 * 60 * 1000
+             })
+             return res.json({ success: true });
+        }
+
 
         res.json({ success: true });
 
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+exports.displayDash = async (req, res) => {
+    const userRole = req.user.role;
+
+    if (userRole === "admin") {
+        const users = await db.getAdminDash();
+        return res.json({ role: "admin", users });
+    }
+
+    if (userRole === "user") {
+        const user = await db.getUserDash(req.user.userId)
+        return res.json({ role: "user", user });
+    }
+
+    return res.status(403).json({ error: "Access denied" });
+};
+
+exports.logout = async (req, res) => {
+    res.clearCookie("session_id");
+    return res.json({ success: true });
+};
+
+exports.delRow = async (req, res) => {
+    const userRole = req.user.role;
+     const {id} = req.body;
+    if (userRole === "admin") {
+        const ok = await db.delRow(id);
+        res.json({ success: ok });
+    }else{
+        res.json({alert:"you dont have the right credentials"})
     }
 };
