@@ -21,7 +21,6 @@ const pool = mysql.createPool({
             id INT PRIMARY KEY AUTO_INCREMENT,
             email VARCHAR(255) UNIQUE NOT NULL,
             password_hash VARCHAR(255) NOT NULL,
-            role ENUM('user', 'admin') DEFAULT 'user',
             created_at DATETIME DEFAULT NOW()
         );
     `);
