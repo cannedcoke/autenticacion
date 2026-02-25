@@ -9,13 +9,14 @@ const pool = mysql.createPool({
 });
 
 
-// INITIAL SETUP 
+// configuracion inicial
 (async () => {
     const conn = await pool.getConnection();
 
     await conn.query("CREATE DATABASE IF NOT EXISTS cookies");
     await conn.query("USE cookies");
 
+    // creo la base de datos para el usuario y el token
     await conn.query(`
         CREATE TABLE IF NOT EXISTS users (
             id INT PRIMARY KEY AUTO_INCREMENT,

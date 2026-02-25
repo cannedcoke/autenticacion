@@ -5,7 +5,7 @@ const { csrfProtection, csrfSecret } = require("../middlewares/csrf");
 JWT_SECRET = "alyssa"
 
 async function authenticate(req, res, next) {
-  // JWT path
+  // est aseccion velida por jwt
   const authHeader = req.headers.authorization;
   if (authHeader && authHeader.startsWith("Bearer ")) {
     const token = authHeader.split(" ")[1];
@@ -18,7 +18,7 @@ async function authenticate(req, res, next) {
     }
   }
 
-  // Cookie/session path
+  // esta seccion valida por medio de la cookie y crsf
   const sessionId = req.cookies?.session_id;
   if (sessionId) {
     
@@ -28,7 +28,9 @@ async function authenticate(req, res, next) {
     }
 
     const session = await db.getSession(sessionId);
-    if (!session) return res.status(401).json({ error: "Invalid session" });
+    if (!session){
+       return res.status(401).json({ error: "Invalid session" });
+    }
     if (new Date() > new Date(session.expires_at)) {
       return res.status(401).json({ error: "Session expired" });
     }

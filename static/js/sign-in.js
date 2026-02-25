@@ -1,3 +1,4 @@
+// obtiene los datos de la plantilla, guarda el token o cookie si es valido
 const submitBtn = document.getElementById("submit-btn");
 submitBtn.addEventListener("click", async (e) => {
   e.preventDefault();

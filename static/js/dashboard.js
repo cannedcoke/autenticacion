@@ -1,13 +1,16 @@
+// se ejecuta esta parte al cargarse la pagina
 document.addEventListener("DOMContentLoaded", () => {
   loadDashboard();
   document.getElementById("logout-btn").addEventListener("click", logout);
 });
 
+// funcion para obtener el token para proteger against csrf
 async function getCsrfToken() {
   const res = await fetch("/csrf-token");
   const data = await res.json();
   return data.csrfToken;
 }
+// genera la tabla con text content para evitar los ataques xxs
 function createUserRow(user) {
   const tr = document.createElement("tr");
 
@@ -29,6 +32,8 @@ function createUserRow(user) {
   return tr;
 }
 
+
+// carga el contenido de las tablas basado en su autenticacion y tipo de rol
 async function loadDashboard() {
   const token = sessionStorage.getItem("token");
   const csrfToken = token ? null : await getCsrfToken();
@@ -61,6 +66,7 @@ async function loadDashboard() {
   }
 }
 
+// al presionar el boton sale de la sesion y borra los tokens
 async function logout() {
   sessionStorage.removeItem("token");
 

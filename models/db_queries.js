@@ -35,7 +35,7 @@ async function getUserByMail(email) {
     conn.release();
     return rows;
 }
-
+// obtiene los datos para el dashboard del administrador
 async function getAdminDash() {
     const conn = await pool.getConnection();
 
@@ -46,6 +46,7 @@ async function getAdminDash() {
     conn.release();
     return rows;
 }
+// obtiene los datos para el dashboard del usuario
 async function getUserDash(user_id) {
     const conn = await pool.getConnection();
 
@@ -57,7 +58,7 @@ async function getUserDash(user_id) {
     conn.release();
     return rows;
 }
-
+// crea session
 async function createSession(sessionId, user_id, expiresAt) {
     const conn = await pool.getConnection();
 
@@ -69,6 +70,7 @@ async function createSession(sessionId, user_id, expiresAt) {
     conn.release();
     return rows;
 }
+// obtiene los datos de la session
 async function getSession(sessionId) {
     const conn = await pool.getConnection();
     const [rows] = await conn.query(
@@ -78,6 +80,7 @@ async function getSession(sessionId) {
     conn.release();
     return rows[0];
 }
+// elimina un registro
 async function delRow(id){
     const conn = await pool.getConnection();
 
@@ -89,6 +92,7 @@ async function delRow(id){
     conn.release();
     return result.affectedRows > 0;
 }
+// elimina la session
 async function deleteSession(sessionId) {
     const conn = await pool.getConnection();
 

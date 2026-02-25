@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
 JWT_SECRET= "alyssa"
-
+// ingresa los datos de la base de datos para cear un usuario
 exports.signUp = async (req, res) => {
     const { email, pass } = req.body;
     try {
@@ -17,7 +17,7 @@ exports.signUp = async (req, res) => {
     }
 };
 
-
+// si el susuario existe e ingresa las credenciales adecuadas obtiene un token o cookie dependiendo de el rol
 exports.logIn = async (req, res) => {
     const { email, pass, sessionType } = req.body;
 
@@ -34,7 +34,7 @@ exports.logIn = async (req, res) => {
         if (!match) {
             return res.status(401).json({ error: "Invalid email or password" });
         }
-
+        // si se eligio jwt
         if (sessionType === "jwt") {
             const token = jwt.sign(
                 { userId: user.id, email: user.email,role: user.role },
@@ -43,6 +43,7 @@ exports.logIn = async (req, res) => {
             );
             return res.json({ token });
         }
+        // si se eligio cookie
         if (sessionType === "cookie") {
              const sessionId = crypto.randomUUID()
              const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
@@ -65,7 +66,7 @@ exports.logIn = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
-
+// obtiene los datos dependiendo del rol
 exports.displayDash = async (req, res) => {
     const userRole = req.user.role;
 
@@ -81,7 +82,7 @@ exports.displayDash = async (req, res) => {
 
     return res.status(403).json({ error: "Access denied" });
 };
-
+// elimina la cookie session
 exports.logout = async (req, res) => {
     const sessionId = req.cookies.session_id;
 
@@ -92,7 +93,7 @@ exports.logout = async (req, res) => {
     res.clearCookie("session_id");
     return res.json({ success: true });
 };
-
+// elimina un registro
 exports.delRow = async (req, res) => {
     const userRole = req.user.role;
      const {id} = req.body;

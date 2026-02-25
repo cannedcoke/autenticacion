@@ -1,3 +1,4 @@
+// obtiene los datos de la plantilla y hace una request para generar un usuario
 const submitBtn = document.getElementById("submit-btn");
 submitBtn.addEventListener("click", async (e) => {
   e.preventDefault();

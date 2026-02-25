@@ -1,5 +1,5 @@
 const rateLimit = require("express-rate-limit");
-
+// limita los reintentos
 const loginLimiter = rateLimit({
   windowMs: 30 * 1000, // 30 seconds
   max: 3,              // max 3 attempts
