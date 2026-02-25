@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 const db = require("../models/db_queries");
+const { csrfProtection, csrfSecret } = require("../middlewares/csrf");
+
 JWT_SECRET = "alyssa"
 
 async function authenticate(req, res, next) {
@@ -19,6 +21,12 @@ async function authenticate(req, res, next) {
   // Cookie/session path
   const sessionId = req.cookies?.session_id;
   if (sessionId) {
+    
+    const csrfToken = req.headers["x-csrf-token"];
+    if (!csrfToken || !csrfProtection.verify(csrfSecret, csrfToken)) {
+        return res.status(403).json({ error: "Invalid CSRF token" });
+    }
+
     const session = await db.getSession(sessionId);
     if (!session) return res.status(401).json({ error: "Invalid session" });
     if (new Date() > new Date(session.expires_at)) {
