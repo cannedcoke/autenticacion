@@ -39,7 +39,7 @@ exports.logIn = async (req, res) => {
             const token = jwt.sign(
                 { userId: user.id, email: user.email,role: user.role },
                 JWT_SECRET,
-                { expiresIn: "1h" }
+                { expiresIn: "15m" }
             );
             return res.json({ token });
         }
@@ -50,6 +50,8 @@ exports.logIn = async (req, res) => {
 
              res.cookie("session_id",sessionId, {
                 httpOnly:true,
+                secure: true, 
+                sameSite: "strict",
                 maxAge:60 * 60 * 1000
              })
              return res.json({ success: true });
