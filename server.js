@@ -4,7 +4,6 @@ const express = require("express")
 
 const app = express()
 
-
 const routes = require("./routes/router")
 
 const path = require("path")
@@ -29,6 +28,7 @@ app.use(helmet.contentSecurityPolicy({
 
 
 app.use(express.json())
+
 
 app.use(cookieParser());
 // serve views

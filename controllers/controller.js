@@ -23,13 +23,13 @@ exports.logIn = async (req, res) => {
 
     try {
         const rows = await db.getUserByMail(email);
-        const user = rows[0]; // <-- it returns an array
+        const user = rows[0]; // retorna arreglo
 
         if (!user) {
             return res.status(401).json({ error: "Invalid email or password" });
         }
 
-        const match = await bcrypt.compare(pass, user.password_hash); // <-- correct column name
+        const match = await bcrypt.compare(pass, user.password_hash); 
 
         if (!match) {
             return res.status(401).json({ error: "Invalid email or password" });
@@ -82,6 +82,7 @@ exports.displayDash = async (req, res) => {
 
     return res.status(403).json({ error: "Access denied" });
 };
+
 // elimina la cookie session
 exports.logout = async (req, res) => {
     const sessionId = req.cookies.session_id;
@@ -93,6 +94,7 @@ exports.logout = async (req, res) => {
     res.clearCookie("session_id");
     return res.json({ success: true });
 };
+
 // elimina un registro
 exports.delRow = async (req, res) => {
     const userRole = req.user.role;

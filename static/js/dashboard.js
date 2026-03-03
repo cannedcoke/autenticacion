@@ -79,7 +79,12 @@ tbody.addEventListener("click", async (e) => {
   if (!e.target.classList.contains("del-btn")) return;
 
   const token = sessionStorage.getItem("token");
-  const csrfToken = token ? null : await getCsrfToken();
+  let csrfToken;
+  if (token) {
+      csrfToken = null;
+  } else {
+      csrfToken = await getCsrfToken();
+  }
   const userId = e.target.dataset.id;
 
   const result = await fetch("/dashboard/delete", {
